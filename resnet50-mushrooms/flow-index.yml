@@ -11,11 +11,6 @@ pods:
         parallel: $JINA_PARALLEL
         timeout_ready: 600000
         read_only: true
-    index:
-        uses: pods/index.yml
-        shards: $JINA_SHARDS
-        separated_workspace: true
-        timeout_ready: 100000
     vec_idx:
         uses: pods/vec.yml
         shards: $JINA_SHARDS

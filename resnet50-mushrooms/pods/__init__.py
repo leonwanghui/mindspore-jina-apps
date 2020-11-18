@@ -30,5 +30,6 @@ class MindsporeResNet50(BaseMindsporeEncoder):
 
                 out = self.mean(c5, (2, 3))
                 out = self.flatten(out)
+                return out
 
         return ResNet50Embed()

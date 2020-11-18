@@ -17,9 +17,10 @@ import numpy as np
 import mindspore.nn as nn
 import mindspore.common.dtype as mstype
 from mindspore.ops import operations as P
-from mindspore.ops import functional as F
 from mindspore.common.tensor import Tensor
 from scipy.stats import truncnorm
+
+from .config import config2 as config
 
 def _conv_variance_scaling_initializer(in_channel, out_channel, kernel_size):
     fan_in = in_channel * kernel_size * kernel_size
@@ -35,13 +36,11 @@ def _weight_variable(shape, factor=0.01):
     init_value = np.random.randn(*shape).astype(np.float32) * factor
     return Tensor(init_value)
 
-
 def _conv3x3(in_channel, out_channel, stride=1):
     weight_shape = (out_channel, in_channel, 3, 3)
     weight = _weight_variable(weight_shape)
     return nn.Conv2d(in_channel, out_channel,
                      kernel_size=3, stride=stride, padding=0, pad_mode='same', weight_init=weight)
-
 
 def _conv1x1(in_channel, out_channel, stride=1):
     weight_shape = (out_channel, in_channel, 1, 1)
@@ -49,23 +48,19 @@ def _conv1x1(in_channel, out_channel, stride=1):
     return nn.Conv2d(in_channel, out_channel,
                      kernel_size=1, stride=stride, padding=0, pad_mode='same', weight_init=weight)
 
-
 def _conv7x7(in_channel, out_channel, stride=1):
     weight_shape = (out_channel, in_channel, 7, 7)
     weight = _weight_variable(weight_shape)
     return nn.Conv2d(in_channel, out_channel,
                      kernel_size=7, stride=stride, padding=0, pad_mode='same', weight_init=weight)
 
-
 def _bn(channel):
     return nn.BatchNorm2d(channel, eps=1e-4, momentum=0.9,
                           gamma_init=1, beta_init=0, moving_mean_init=0, moving_var_init=1)
 
-
 def _bn_last(channel):
     return nn.BatchNorm2d(channel, eps=1e-4, momentum=0.9,
                           gamma_init=0, beta_init=0, moving_mean_init=0, moving_var_init=1)
-
 
 def _fc(in_channel, out_channel):
     weight_shape = (out_channel, in_channel)
@@ -147,18 +142,11 @@ class ResNet50(nn.Cell):
         out_channels (list): Output channel in each layer.
         strides (list):  Stride size in each layer.
         num_classes (int): The number of classes that the training images are belonging to.
-        use_se (bool): enable SE-ResNet50 net. Default: False.
-        se_block(bool): use se block in SE-ResNet50 net in layer 3 and layer 4. Default: False.
     Returns:
         Tensor, output tensor.
 
     Examples:
-        >>> ResNet50(ResidualBlock,
-        >>>          [3, 4, 6, 3],
-        >>>          [64, 256, 512, 1024],
-        >>>          [256, 512, 1024, 2048],
-        >>>          [1, 2, 2, 2],
-        >>>          10)
+        >>> ResNet50(num_classes=10)
     """
 
     def __init__(self,
@@ -167,7 +155,7 @@ class ResNet50(nn.Cell):
                  in_channels=[64, 256, 512, 1024],
                  out_channels=[256, 512, 1024, 2048],
                  strides=[1, 2, 2, 2],
-                 num_classes=10):
+                 num_classes=config.class_num):
         super(ResNet50, self).__init__()
 
         if not len(layer_nums) == len(in_channels) == len(out_channels) == 4:

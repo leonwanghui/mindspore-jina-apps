@@ -13,6 +13,7 @@
 # limitations under the License.
 # ============================================================================
 """train resnet."""
+import ast
 import argparse
 
 import mindspore.nn as nn
@@ -28,6 +29,7 @@ from mindspore.common import set_seed
 
 from src.lr_generator import get_lr, warmup_cosine_annealing_lr
 from src.CrossEntropySmooth import CrossEntropySmooth
+from src.resnet import ResNet50
 
 parser = argparse.ArgumentParser(description='Image classification')
 parser.add_argument('--net', type=str, default='resnet50',
@@ -44,22 +46,12 @@ args_opt = parser.parse_args()
 
 set_seed(1)
 
-if args_opt.net == "resnet50":
-    from src.resnet import resnet50 as resnet
-    if args_opt.dataset == "cifar10":
-        from src.config import config1 as config
-        from src.dataset import create_dataset1 as create_dataset
-    else:
-        from src.config import config2 as config
-        from src.dataset import create_dataset2 as create_dataset
-elif args_opt.net == "resnet101":
-    from src.resnet import resnet101 as resnet
-    from src.config import config3 as config
-    from src.dataset import create_dataset3 as create_dataset
+if args_opt.dataset == "cifar10":
+    from src.config import config1 as config
+    from src.dataset import create_dataset1 as create_dataset
 else:
-    from src.resnet import se_resnet50 as resnet
-    from src.config import config4 as config
-    from src.dataset import create_dataset4 as create_dataset
+    from src.config import config2 as config
+    from src.dataset import create_dataset2 as create_dataset
 
 
 if __name__ == '__main__':
@@ -75,7 +67,7 @@ if __name__ == '__main__':
     step_size = dataset.get_dataset_size()
 
     # define net
-    net = resnet(class_num=config.class_num)
+    net = ResNet50(num_classes=config.class_num)
     if args_opt.parameter_server:
         net.set_param_ps()
 

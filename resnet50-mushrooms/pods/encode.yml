@@ -1,6 +1,6 @@
 !MindsporeResNet50
 with:
-  model_path: resnet/ckpt_files/resnet50-90_209.ckpt
+  model_path: pods/resnet/ckpt_files/resnet50-90_209.ckpt
 metas:
   py_modules:
     - __init__.py

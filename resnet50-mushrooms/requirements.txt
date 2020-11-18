@@ -1,2 +1,2 @@
 click
-jina[hub]
+jina[hub,http]==0.7.11
