@@ -30,7 +30,7 @@ def get_random_ws(workspace_path, length=8):
 @click.option('--num_docs', '-n', default=1000)
 def main(task, num_docs):
     config()
-    data_path = os.path.join(os.environ['JINA_DATA_DIR'], '**/*.jpg')
+    data_path = os.path.join(os.environ['JINA_DATA_DIR'], 'train/**/*.jpg')
     if task == 'index':
         f = Flow().load_config('flow-index.yml')
         with f:
