@@ -1,0 +1,32 @@
+!Flow
+meta:
+  prefetch: 10
+pods:
+  crafter:
+    uses: yaml/craft.yml
+    parallel: $JINA_PARALLEL
+    read_only: true
+  encoder:
+    uses: yaml/encode.yml
+    parallel: $JINA_PARALLEL
+    timeout_ready: 600000
+    read_only: true
+  vec_indexer:
+    uses: yaml/vec.yml
+    shards: $JINA_SHARDS
+    separated_workspace: true
+    polling: all
+    uses_reducing: _merge_all
+    timeout_ready: 100000 # larger timeout as in query time will read all the data
+  doc_indexer:
+    uses: yaml/doc.yml
+    shards: $JINA_SHARDS
+    separated_workspace: true
+    polling: all
+    uses_reducing: _merge_all
+    timeout_ready: 100000 # larger timeout as in query time will read all the data
+    needs: [gateway]
+  join_all:
+    uses: _merge
+    needs: [doc_indexer, vec_indexer]
+    read_only: true

@@ -9,12 +9,11 @@ from jina.flow import Flow
 
 RANDOM_SEED = 15
 
-
 def config():
     os.environ['JINA_PARALLEL'] = str(1)
     os.environ['JINA_SHARDS'] = str(2)
-    os.environ['JINA_PORT'] = os.environ.get('JINA_PORT', str(45678))
-    os.environ['JINA_DATA_DIR'] = os.environ.get('JINA_DATA_DIR', '/tmp/jina/mushrooms')
+    os.environ['JINA_PORT'] = os.environ.get('JINA_PORT', str(8080))
+    os.environ['JINA_DATA_DIR'] = os.environ.get('JINA_DATA_DIR', '/tmp/jina/chinese-mnist')
     os.environ['JINA_WORKSPACE'] = os.environ.get('JINA_WORKSPACE', get_random_ws(os.environ['JINA_DATA_DIR']))
 
 
@@ -27,24 +26,20 @@ def get_random_ws(workspace_path, length=8):
 
 @click.command()
 @click.option('--task', '-t')
-@click.option('--num_docs', '-n', default=1000)
+@click.option('--num_docs', '-n', default=15000)
 def main(task, num_docs):
     config()
-    data_path = os.path.join(os.environ['JINA_DATA_DIR'], '**/*.jpg')
+    data_path = os.path.join(os.environ['JINA_DATA_DIR'], 'jpg/*.jpg')
     if task == 'index':
         f = Flow().load_config('flow-index.yml')
         with f:
-            f.index_files(data_path, batch_size=32, read_mode='rb', size=num_docs)
+            f.index_files(data_path, batch_size=64, read_mode='rb', size=num_docs)
     elif task == 'query':
         f = Flow().load_config('flow-query.yml')
         with f:
             f.block()
-    elif task == 'dryrun':
-        f = Flow.load_config('flow-query.yml')
-        with f:
-            pass
     else:
-        raise NotImplementedError(f'unknown task: {task}. A valid task is either `index`, `query` or `dryrun`.')
+        raise NotImplementedError(f'unknown task: {task}. A valid task is either `index` or `query`.')
 
 
 if __name__ == '__main__':

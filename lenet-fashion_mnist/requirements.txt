@@ -1,2 +1,0 @@
-click
-jina[hub]==0.7.0
