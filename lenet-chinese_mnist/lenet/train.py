@@ -44,7 +44,7 @@ set_seed(1)
 
 if __name__ == "__main__":
     context.set_context(mode=context.GRAPH_MODE, device_target=args.device_target)
-    ds_train = create_dataset(os.path.join(args.data_path, "train"), cfg.batch_size)
+    ds_train = create_dataset(args.data_path, cfg.batch_size)
     if ds_train.get_dataset_size() == 0:
         raise ValueError("Please check dataset size > 0 and batch_size <= dataset size")
 

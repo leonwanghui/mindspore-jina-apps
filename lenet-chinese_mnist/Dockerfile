@@ -21,12 +21,11 @@ RUN sh ./get_data.sh && \
     python train.py --data_path /tmp/jina/chinese-mnist/ --ckpt_path ckpt_files/ --device_target="CPU" && \
     cd -
 
-RUN  python generate.py
+RUN python generate.py
 
 # for testing the image
 RUN pip install --user pytest && pytest -s
 
 RUN python app.py -t index -n 15000
-
 
 ENTRYPOINT ["python", "app.py", "-t", "query"]

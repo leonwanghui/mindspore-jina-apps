@@ -12,5 +12,5 @@ fi
 mkdir -p ${DATA_DIR}
 cd ${DATA_DIR}
 
-wget -P ${DATA_DIR} https://mnist-jina.obs.cn-north-4.myhuaweicloud.com/train-images-idx3-ubyte
-wget -P ${DATA_DIR} https://mnist-jina.obs.cn-north-4.myhuaweicloud.com/train-labels-idx1-ubyte
+wget -P ${DATA_DIR} --no-check-certificate https://mnist-jina.obs.cn-north-4.myhuaweicloud.com/train-images-idx3-ubyte
+wget -P ${DATA_DIR} --no-check-certificate https://mnist-jina.obs.cn-north-4.myhuaweicloud.com/train-labels-idx1-ubyte

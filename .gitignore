@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+**/kernel_meta
+**/*.ckpt
+**/*.meta
