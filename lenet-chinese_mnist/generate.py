@@ -46,9 +46,9 @@ def save_mnist_to_jpg(images, labels, save_dir, kind, num):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="MNIST Dataset Operations")
-    parser.add_argument('--data_dir', type=str, default='/tmp/jina/chinese-mnist', help='MNIST dataset dir')
+    parser.add_argument('--data_dir', type=str, default='/root/jina/chinese-mnist', help='MNIST dataset dir')
     parser.add_argument('--kind', type=str, default='train', help='MNIST dataset: train or t10k')
-    parser.add_argument('--save_dir', type=str, default='/tmp/jina/chinese-mnist/jpg', help='used to save mnist jpg')
+    parser.add_argument('--save_dir', type=str, default='/root/jina/chinese-mnist/jpg', help='used to save mnist jpg')
     args = parser.parse_args()
 
     if not os.path.exists(args.data_dir):

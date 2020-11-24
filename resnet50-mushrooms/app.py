@@ -14,7 +14,7 @@ def config():
     os.environ['JINA_PARALLEL'] = str(1)
     os.environ['JINA_SHARDS'] = str(2)
     os.environ['JINA_PORT'] = os.environ.get('JINA_PORT', str(45678))
-    os.environ['JINA_DATA_DIR'] = os.environ.get('JINA_DATA_DIR', '/tmp/jina/mushrooms')
+    os.environ['JINA_DATA_DIR'] = os.environ.get('JINA_DATA_DIR', '/root/jina/mushrooms')
     os.environ['JINA_WORKSPACE'] = os.environ.get('JINA_WORKSPACE', get_random_ws(os.environ['JINA_DATA_DIR']))
 
 

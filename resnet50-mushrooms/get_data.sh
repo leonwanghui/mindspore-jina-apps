@@ -2,7 +2,7 @@
 
 set -e
 
-DATA_DIR=/tmp/jina/mushrooms
+DATA_DIR=${DATA_DIR:-/root/jina/mushrooms}
 
 if [ -d ${DATA_DIR} ]; then
   echo ${DATA_DIR}' exists, please remove it before running the script'
