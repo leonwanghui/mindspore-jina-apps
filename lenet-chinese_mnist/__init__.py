@@ -2,12 +2,11 @@ __copyright__ = "Copyright (c) 2020 Jina AI Limited. All rights reserved."
 __license__ = "Apache-2.0"
 
 import io
-import numpy as np
 from typing import Dict
+import numpy as np
 from PIL import Image
 from jina.executors.encoders.frameworks import BaseMindsporeEncoder
 from jina.executors.crafters import BaseCrafter
-
 from .lenet.src.lenet import LeNet5
 
 
@@ -66,6 +65,7 @@ class MnistImageReader(BaseCrafter):
             raw_img = Image.open(uri)
         else:
             raise ValueError('no value found in "buffer" and "uri"')
+        raw_img = raw_img.resize((28, 28), Image.ANTIALIAS)
         raw_img = raw_img.convert('1')
         img = np.array(raw_img).astype('float32')
         if self.channel_axis != -1:
